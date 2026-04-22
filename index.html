@@ -219,12 +219,16 @@ async function sendMessage() {
     });
     const data = await res.json();
     removeTyping();
-    const reply = data.content?.[0]?.text || 'Désolé, une erreur est survenue.';
-    history.push({ role: 'assistant', content: reply });
-    addMsg('agent', formatReply(reply));
+    if (data.error) {
+      addMsg('agent', '<p>Erreur : ' + (data.error.message || JSON.stringify(data.error)) + '</p>');
+    } else {
+      const reply = data.content?.[0]?.text || 'Désolé, une erreur est survenue.';
+      history.push({ role: 'assistant', content: reply });
+      addMsg('agent', formatReply(reply));
+    }
   } catch(e) {
     removeTyping();
-    addMsg('agent', '<p>Une erreur est survenue. Réessayez dans un instant.</p>');
+    addMsg('agent', '<p>Erreur technique : ' + e.message + '</p>');
   }
   document.getElementById('sendBtn').disabled = false;
   inp.focus();
