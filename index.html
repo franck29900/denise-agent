@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les Aventures de Denise — Guide du projet</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #FAF6EE; --white: #FFFDF8; --gold: #C9A84C;
+    --gold-light: rgba(201,168,76,0.14); --gold-border: rgba(201,168,76,0.28);
+    --dark: #2A2118; --mid: #6B5E45; --brown: #8B6914;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--dark); min-height: 100vh; display: flex; flex-direction: column; }
+  header { padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--gold-border); background: var(--cream); position: sticky; top: 0; z-index: 10; }
+  .logo { display: flex; align-items: baseline; gap: 10px; }
+  .logo-name { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--gold); letter-spacing: 0.08em; }
+  .logo-sub { font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mid); }
+  .dots { display: flex; gap: 6px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dark); }
+  .layout { flex: 1; display: grid; grid-template-columns: 260px 1fr; max-width: 1080px; margin: 0 auto; width: 100%; padding: 0 28px 28px; }
+  aside { padding: 26px 18px 26px 0; border-right: 1px solid var(--gold-border); }
+  .side-title { font-size: 10px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--brown); margin-bottom: 12px; }
+  .info-card { background: var(--white); border-radius: 10px; padding: 14px 16px; margin-bottom: 16px; border: 1px solid var(--gold-border); }
+  .card-title { font-family: 'Playfair Display', serif; font-style: italic; font-size: 13px; color: var(--dark); margin-bottom: 10px; }
+  .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid #F0EBD8; font-size: 12px; }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label { color: var(--mid); }
+  .stat-val { font-weight: 600; color: var(--brown); }
+  .volet { display: flex; align-items: center; gap: 10px; background: var(--white); border: 1px solid var(--gold-border); border-radius: 8px; padding: 8px 11px; margin-bottom: 7px; }
+  .volet-icon { font-size: 16px; }
+  .volet-name { font-size: 12px; font-weight: 600; color: var(--dark); }
+  .volet-sub { font-size: 11px; color: var(--mid); }
+  .quick-btn { width: 100%; background: var(--white); border: 1px solid var(--gold-border); border-radius: 8px; padding: 9px 11px; font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--mid); cursor: pointer; text-align: left; margin-bottom: 7px; line-height: 1.45; transition: all 0.15s; }
+  .quick-btn:hover { border-color: var(--gold); color: var(--brown); background: var(--gold-light); }
+  .chat-wrap { display: flex; flex-direction: column; padding: 26px 0 0 26px; height: calc(100vh - 84px); }
+  .messages { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; padding-bottom: 14px; scrollbar-width: thin; scrollbar-color: var(--gold) transparent; }
+  .welcome { display: flex; flex-direction: column; gap: 7px; }
+  .eyebrow { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+  .welcome-title { font-family: 'Playfair Display', serif; font-size: 24px; line-height: 1.38; color: var(--dark); }
+  .welcome-title em { color: var(--gold); }
+  .welcome-desc { font-size: 13px; color: var(--mid); line-height: 1.8; max-width: 460px; margin-top: 4px; }
+  .divider { height: 1px; background: var(--gold-border); margin: 6px 0; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { background: var(--gold-light); border: 1px solid var(--gold-border); border-radius: 20px; padding: 4px 12px; font-size: 11px; color: var(--brown); font-weight: 600; }
+  .msg-row { display: flex; gap: 10px; animation: fadeUp 0.25s ease both; }
+  .msg-row.user { flex-direction: row-reverse; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+  .avatar { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; margin-top: 2px; font-family: 'Playfair Display', serif; }
+  .avatar.agent { background: var(--gold); color: white; }
+  .avatar.user { background: var(--dark); color: var(--cream); }
+  .bubble { max-width: 480px; padding: 12px 16px; font-size: 13px; line-height: 1.78; font-family: 'DM Sans', sans-serif; }
+  .bubble.agent { background: var(--white); border: 1px solid var(--gold-border); border-radius: 4px 16px 16px 16px; color: var(--dark); }
+  .bubble.user { background: var(--dark); color: var(--cream); border-radius: 16px 4px 16px 16px; }
+  .bubble p { margin: 4px 0; }
+  .bubble ul { margin: 8px 0 8px 18px; }
+  .bubble li { margin-bottom: 4px; }
+  .bubble strong { color: var(--brown); }
+  .bubble.user strong { color: var(--gold); }
+  .typing-wrap { display: flex; gap: 5px; padding: 4px 2px; align-items: center; }
+  .typing-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); animation: bounce 1.2s infinite ease-in-out; }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce { 0%,80%,100%{transform:scale(0.6);opacity:0.4} 40%{transform:scale(1);opacity:1} }
+  .input-area { padding-top: 14px; border-top: 1px solid var(--gold-border); display: flex; gap: 10px; align-items: flex-end; }
+  .input-wrap { flex: 1; background: var(--white); border: 1px solid var(--gold-border); border-radius: 10px; display: flex; align-items: flex-end; padding: 8px 12px; transition: border-color 0.2s; }
+  .input-wrap:focus-within { border-color: var(--gold); }
+  textarea { flex: 1; border: none; outline: none; background: transparent; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--dark); resize: none; min-height: 22px; max-height: 110px; line-height: 1.55; }
+  textarea::placeholder { color: #C0B49A; }
+  .send-btn { width: 38px; height: 38px; border-radius: 10px; background: var(--gold); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.15s; }
+  .send-btn:hover { background: var(--brown); }
+  .send-btn:disabled { background: #ccc; cursor: not-allowed; }
+  @media (max-width: 700px) { .layout { grid-template-columns: 1fr; padding: 0 16px 16px; } aside { display: none; } .chat-wrap { padding: 16px 0 0; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <span class="logo-name">DENISE</span>
+    <span class="logo-sub">Guide du projet</span>
+  </div>
+  <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+</header>
+
+<div class="layout">
+  <aside>
+    <p class="side-title">En un coup d'œil</p>
+    <div class="info-card">
+      <p class="card-title">Les Aventures de Denise</p>
+      <div class="stat-row"><span class="stat-label">Photos grand format</span><span class="stat-val">30</span></div>
+      <div class="stat-row"><span class="stat-label">Épisodes web-série</span><span class="stat-val">15</span></div>
+      <div class="stat-row"><span class="stat-label">Territoire</span><span class="stat-val">Finistère</span></div>
+      <div class="stat-row"><span class="stat-label">Web-série</span><span class="stat-val">Automne 2026</span></div>
+      <div class="stat-row"><span class="stat-label">Exposition</span><span class="stat-val">Déc. 2026</span></div>
+    </div>
+    <p class="side-title" style="margin-top:6px">Les 3 volets</p>
+    <div class="volet"><span class="volet-icon">📷</span><div><p class="volet-name">Série photo</p><p class="volet-sub">30 grands formats</p></div></div>
+    <div class="volet"><span class="volet-icon">🎬</span><div><p class="volet-name">Web-série</p><p class="volet-sub">15 épisodes</p></div></div>
+    <div class="volet"><span class="volet-icon">🖼️</span><div><p class="volet-name">Exposition</p><p class="volet-sub">Itinérante dès déc. 2026</p></div></div>
+    <p class="side-title" style="margin-top:14px">Questions fréquentes</p>
+    <button class="quick-btn" onclick="sendQuick(this)">C'est quoi exactement le projet Denise ?</button>
+    <button class="quick-btn" onclick="sendQuick(this)">Qui est derrière ce projet ?</button>
+    <button class="quick-btn" onclick="sendQuick(this)">Où et quand peut-on voir l'exposition ?</button>
+    <button class="quick-btn" onclick="sendQuick(this)">Comment suivre les aventures de Denise ?</button>
+    <button class="quick-btn" onclick="sendQuick(this)">Comment soutenir ou participer au projet ?</button>
+  </aside>
+
+  <div class="chat-wrap">
+    <div class="messages" id="messages">
+      <div class="welcome">
+        <p class="eyebrow">Une épopée photographique &amp; cinématographique</p>
+        <h1 class="welcome-title">Bienvenue dans l'univers<br><em>des Aventures de Denise</em></h1>
+        <p class="welcome-desc">Posez-moi toutes vos questions sur ce projet breton hors du commun — les photos, la web-série, l'exposition, l'équipe, ou comment vous impliquer.</p>
+        <div class="divider"></div>
+        <div class="chips">
+          <span class="chip">Bretagne · Finistère</span>
+          <span class="chip">Photographie</span>
+          <span class="chip">Documentaire</span>
+          <span class="chip">Exposition 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="input-area">
+      <div class="input-wrap">
+        <textarea id="userInput" placeholder="Posez votre question sur le projet Denise…" rows="1"
+          onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+      </div>
+      <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M2 21L23 12 2 3v7l15 2-15 2z"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ⚠️ REMPLACEZ PAR VOTRE CLÉ API
+
+
+const SYSTEM = `Tu es l'ambassadeur du projet artistique "Les Aventures de Denise". Tu parles à quelqu'un qui découvre le projet et qui veut en savoir plus. TON RÔLE : répondre avec enthousiasme, clarté et poésie à toutes les questions sur le projet. Réponds toujours en français.
+
+CONCEPT : "Denise" est un projet artistique unique qui mêle photographie, documentaire et exposition immersive. L'idée : mettre en scène de façon drôle et poétique une femme bretonne d'un autre temps — en coiffe et costume traditionnels — propulsée dans le Finistère d'aujourd'hui.
+
+LES 3 VOLETS :
+1. SÉRIE PHOTOGRAPHIQUE : 30 photographies grand format signées Franck Bétermin. Projet débuté en 2017. Lauréat du Grand Prix Photographique de Bretagne.
+2. WEB-SÉRIE : 15 épisodes réalisés par Gilles Blaize (Mook Productions). Diffusion automne 2026.
+3. EXPOSITION IMMERSIVE : itinérante, 30 tirages + objets + vidéos. À partir de décembre 2026.
+
+ÉQUIPE : Franck Bétermin (photographe, Concarneau), Denise (modèle, Franco-autrichienne), Gilles Blaize (réalisateur, Brest), Thomas (assistant), Isabelle (costumière), Léa Jamelot (production, Gouézec).
+BUDGET : 90 000 € total. CONTACT : franckbetermin@me.com — Site : http://www.betermin.com`;
+
+let history = [];
+
+function autoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 110) + 'px'; }
+function handleKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
+function sendQuick(btn) { document.getElementById('userInput').value = btn.textContent.trim(); sendMessage(); }
+
+function addMsg(role, html) {
+  const wrap = document.getElementById('messages');
+  const welcome = wrap.querySelector('.welcome');
+  if (welcome) welcome.remove();
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + (role === 'user' ? 'user' : '');
+  const av = document.createElement('div');
+  av.className = 'avatar ' + (role === 'user' ? 'user' : 'agent');
+  av.textContent = role === 'user' ? '?' : 'D';
+  const bub = document.createElement('div');
+  bub.className = 'bubble ' + (role === 'user' ? 'user' : 'agent');
+  bub.innerHTML = html;
+  row.appendChild(av); row.appendChild(bub);
+  wrap.appendChild(row);
+  wrap.scrollTop = wrap.scrollHeight;
+}
+
+function showTyping() {
+  const wrap = document.getElementById('messages');
+  const row = document.createElement('div');
+  row.className = 'msg-row'; row.id = 'typing';
+  const av = document.createElement('div');
+  av.className = 'avatar agent'; av.textContent = 'D';
+  const bub = document.createElement('div');
+  bub.className = 'bubble agent'; bub.style.padding = '10px 16px';
+  bub.innerHTML = '<div class="typing-wrap"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+  row.appendChild(av); row.appendChild(bub);
+  wrap.appendChild(row); wrap.scrollTop = wrap.scrollHeight;
+}
+
+function removeTyping() { const t = document.getElementById('typing'); if (t) t.remove(); }
+
+function formatReply(text) {
+  const lines = text.split('\n');
+  let html = '', inList = false;
+  lines.forEach(line => {
+    const m = line.match(/^[-•*]\s+(.+)/);
+    if (m) { if (!inList) { html += '<ul>'; inList = true; } html += '<li>' + bold(m[1]) + '</li>'; }
+    else { if (inList) { html += '</ul>'; inList = false; } if (line.trim()) html += '<p>' + bold(line) + '</p>'; }
+  });
+  if (inList) html += '</ul>';
+  return html;
+}
+function bold(t) { return t.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); }
+
+async function sendMessage() {
+  const inp = document.getElementById('userInput');
+  const text = inp.value.trim();
+  if (!text) return;
+  inp.value = ''; inp.style.height = 'auto';
+  document.getElementById('sendBtn').disabled = true;
+  addMsg('user', text);
+  history.push({ role: 'user', content: text });
+  showTyping();
+  try {
+    const res = await fetch('/.netlify/functions/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: SYSTEM, messages: history })
+    });
+    const data = await res.json();
+    removeTyping();
+    const reply = data.content?.[0]?.text || 'Désolé, une erreur est survenue.';
+    history.push({ role: 'assistant', content: reply });
+    addMsg('agent', formatReply(reply));
+  } catch(e) {
+    removeTyping();
+    addMsg('agent', '<p>Une erreur est survenue. Réessayez dans un instant.</p>');
+  }
+  document.getElementById('sendBtn').disabled = false;
+  inp.focus();
+}
+</script>
+</body>
+</html>
